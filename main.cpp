@@ -1,37 +1,46 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 void PrintVector(std::vector<int> v)
 {
-	std::cout << "| ";
-	for (int i = 0; i < v.size(); i++)
-	{
-		std::cout << v[i] << " | ";
-	}
-	std::cout << "\n";
+    std::cout << "| ";
+    for (int i = 0; i < v.size(); i++)
+    {
+        std::cout << v[i] << " | ";
+    }
+    std::cout << "\n";
 }
 
 int main()
 {
-	std::vector<int> v = { -100,-50, -5, 1, 10, 15 };
+    std::cout << "Initial vector:\n";
+    std::vector<int> v = { -150,-100,-50, -5, 1, 10, 15 };
 
-	PrintVector(v);
+    PrintVector(v);
 
-	for (int i = 0; i < v.size() - 1; i++)
-	{
-		for (int j = 0; j < v.size() - i - 1; j++)
-		{
-			if (std::abs(v[j]) > std::abs(v[j + 1]))
-			{
-				int temp = v[j + 1];
-				v[j + 1] = v[j];
-				v[j] = temp;
-			}
-		}
-	}
+    int operations = 0;
+    for (int i = 0; v[0] < 0 && i < v.size(); i++)
+    {
+        //Thus v is already sorted in ascending order,
+        //when bubble sort is reaching non-negative values it can be stopped.
+        //All other values are guaranteed to be sorted according to abs-value.
+        //if (v[0] >= 0) break;
 
-	PrintVector(v);
+        for (int j = 0; j < v.size() - i - 1; j++)
+        {
+            if (std::abs(v[j]) > std::abs(v[j + 1]))
+            {
+                int temp = v[j + 1];
+                v[j + 1] = v[j];
+                v[j] = temp;
+            }
+            operations++;
+        }
+    }
 
-	return 0;
+    std::cout << "Vector after sorting by absolute values:\n";
+    PrintVector(v);
+    std::cout << "Operations: " << operations << "\n";
+
+    return 0;
 }
